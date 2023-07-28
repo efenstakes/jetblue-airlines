@@ -1,0 +1,55 @@
+
+.page {
+  position: relative;
+  height: 100vh;
+}
+
+.direction_container {
+  position: absolute;
+  bottom: 5vh;
+  width: 100%;
+
+
+  display: flex;
+  justify-content: center;
+
+  z-index: 20;
+}
+
+.direction_container_icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+
+  background-color: rgba(white, .1);
+  backdrop-filter: blur(10px);
+
+  cursor: pointer;
+
+  animation: bounce 2s cubic-bezier(0.785, 0.135, 0.15, 0.86) 1.5s infinite normal backwards;
+}
+
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+  // 40% {
+  //   transform: translateY(-20px);
+  // }
+  // 60% {
+  //   transform: translateY(-15px);
+  // }
+}
+
+
