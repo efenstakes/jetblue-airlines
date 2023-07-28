@@ -1,0 +1,70 @@
+$WHITE_COLOR: dodgerblue;
+$PRIMARY_COLOR: dodgerblue;
+$BLACK_COLOR: #1e1e1e;
+
+
+
+.appbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    overflow-x: hidden;
+
+    display: flex;
+    justify-content: space-between;
+
+    padding: .5rem 1rem;
+
+    color: white;
+
+    background-image: linear-gradient(
+        to bottom,
+        rgba($WHITE_COLOR, .5),
+        rgba($WHITE_COLOR, .3),
+        transparent
+    );
+    backdrop-filter: blur(10px);
+    z-index: 999;
+
+    overflow: hidden;
+}
+
+.appbar_svg {
+    // transform: scale(.72);
+
+    path, rect {
+        color: $BLACK_COLOR;
+    }
+
+    @media screen and (min-width: 800px) {
+        transform: scale(.8);
+    }
+}
+
+
+.appbar__section {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+
+    max-height: 56px;
+}
+
+.appbar__section_right {
+    gap: 1rem;
+}
+
+.appbar__appname {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.MuiAvatar-root {
+    max-width: 32px;
+    max-height: 32px;
+    color: $PRIMARY_COLOR;
+    background-color: whitesmoke;
+}
