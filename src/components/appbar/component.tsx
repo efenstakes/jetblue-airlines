@@ -13,7 +13,7 @@ import './component.scss'
 
 const Appbar = () => {
     const width = useWindowWidth()
-    const isMobile = width < 1000
+    const isMobile = width < 720
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -22,15 +22,9 @@ const Appbar = () => {
       setAnchorEl(event.currentTarget);
     }
 
-    const handleMouseIn = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    }
-    
-      
     const handleClose = () => {
       setAnchorEl(null);
     }
-
 
     return (
         <motion.div
@@ -54,7 +48,7 @@ const Appbar = () => {
                     <motion.path
                         d="M20.2038 13.2024C20.2038 9.59704 24.2743 3 26.1944 3C28.1144 3 33.5674 10.2107 33.5674 13.2024V29.7717L52 42.7357V48.1821H32.2618V65.5185L40.71 71.1183V75.7976L29.4201 73.4196L26.1944 86L22.431 73.4196L10.7571 75.7976V71.1183L20.2038 65.5185V48.1821H3V42.7357L20.2038 29.7717V13.2024Z"
                         stroke="white"
-                        stroke-width="5"
+                        stroke-width={ isMobile ? 8 : 5 }
                         stroke-linejoin="round"
                         pathLength={1}
                         strokeDasharray="1 1"
