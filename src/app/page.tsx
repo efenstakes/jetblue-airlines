@@ -1,10 +1,10 @@
 "use client"
 import { Canvas, useFrame } from '@react-three/fiber'
 import { PlaneModel } from '@/components/plane/component'
-import { Cloud, OrbitControls, Text, } from '@react-three/drei'
+import { Cloud, Html, Loader, OrbitControls, Text, useProgress, } from '@react-three/drei'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { motion as motion3d } from 'framer-motion-3d'
-import { useRef, useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import { useWindowHeight, useWindowWidth } from '@react-hook/window-size'
 import { Depth, LayerMaterial, Noise } from 'lamina'
 import { MdKeyboardDoubleArrowDown } from 'react-icons/md'
@@ -67,7 +67,10 @@ export default function Home() {
           rotation-y={rotateY}
           rotation-x={rotateX}
         >
-          <PlaneModel />
+          {/* plane model */}
+          <Suspense fallback={<Loader />}>
+            <PlaneModel />
+          </Suspense>
 
           {
             new Array(30).fill(20).map((_, i)=> {
@@ -250,8 +253,10 @@ export default function Home() {
             </group>
         </motion3d.group>
 
-
+        {/* <AltLoader /> */}
+        {/* <CanvasLoader /> */}
       </Canvas>
+      {/* <Loader /> */}
 
       <motion.div
         className='direction_container'
@@ -299,4 +304,52 @@ const CanvasBackground = ()=> {
           </LayerMaterial>
       </mesh>
   )
+}
+
+function AltLoader() {
+  console.log("AltLoader called")
+  const { active, progress, errors, item, loaded, total } = useProgress()
+  console.log("progress ", progress)
+
+  if( progress == 100 ) {
+      return (
+          <></>
+      )
+  }
+  return (
+    <Html
+      center
+      className='canvas_loader'
+    >
+      {progress} % loaded
+    </Html>
+  )
+}
+
+const CanvasLoader = ()=> {
+  console.log("CanvasLoader called")
+    const { progress } = useProgress()
+
+    console.log("progress ", progress)
+
+    // if( progress == 100 ) {
+    //     return (
+    //         <></>
+    //     )
+    // }
+    return (
+        <group>
+            <Html
+                center
+                className='canvas_loader'
+            >
+                <h1>
+                    {progress} %
+                </h1>
+                <p>
+                    Loaded
+                </p>
+            </Html>
+        </group>
+    )
 }
