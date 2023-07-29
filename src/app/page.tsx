@@ -4,10 +4,12 @@ import { PlaneModel } from '@/components/plane/component'
 import { Cloud, Html, Loader, OrbitControls, Text, useProgress, } from '@react-three/drei'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { motion as motion3d } from 'framer-motion-3d'
-import { Suspense, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useWindowHeight, useWindowWidth } from '@react-hook/window-size'
 import { Depth, LayerMaterial, Noise } from 'lamina'
 import { MdKeyboardDoubleArrowDown } from 'react-icons/md'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import * as THREE from 'three'
 
@@ -18,6 +20,7 @@ import Appbar from '@/components/appbar/component'
 // styles
 import { bouncingItemVariants, containerVariants } from '@/styles/variants'
 import './page.scss'
+import { ToastContainer, toast } from 'react-toastify'
 
 
 export default function Home() {
@@ -26,7 +29,10 @@ export default function Home() {
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
-  const isMobile = width < 800
+  const [alreadyShownEffectsWarning, setAlreadyShownEffectsWarning] = useState(false)
+  const [isTextHovered, setIsTextHovered] = useState(false)
+
+  const isMobile = width < 720
 
   const pageRef = useRef(null)
 
@@ -39,14 +45,32 @@ export default function Home() {
       // setHovered(true)
       const rect = event.currentTarget.getBoundingClientRect();
 
-      setTimeout(()=> {
-        x.set(event.clientX - 20 - rect.left);
-        y.set(event.clientY - 20 - rect.top);
-      }, 50)
+      // setTimeout(()=> {
+      x.set(event.clientX - 20 - rect.left);
+      y.set(event.clientY - 20 - rect.top);
+      // }, 50)
 
   }
 
   
+  useEffect(()=> {
+    
+    if( width < 720 && !alreadyShownEffectsWarning ) {
+      console.log("we mobile now")
+
+      toast.warn('Our mouse effects are only supported in desktop devices!', {
+        position: "bottom-center",
+        autoClose: 15000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      setAlreadyShownEffectsWarning(true)
+    }
+  }, [ width ])
   return (
     <motion.div
       className='page'
@@ -56,7 +80,7 @@ export default function Home() {
       <Appbar />
 
       <Canvas className='home_canvas'>
-        {/* <OrbitControls /> */}
+        <OrbitControls />
         <ambientLight />
 
         <CanvasBackground />
@@ -69,7 +93,9 @@ export default function Home() {
         >
           {/* plane model */}
           <Suspense fallback={<Loader />}>
-            <PlaneModel />
+            <group scale={ isMobile ? [ .8, .8, .8 ] : [ 1, 1, 1 ] }>
+              <PlaneModel />
+            </group>
           </Suspense>
 
           {
@@ -225,28 +251,26 @@ export default function Home() {
           }
 
             <group position={[ -10, 20, 0 ]} scale={5}>
-                {/* <Text
-                    font="/fonts/Orbitron_Regular.json"
-                    scale={ isMobile ? .72 : 8 }
-                    position={ isMobile ? [ 0, 2.5, -4 ] : [ 0, .5, -4 ] }
-                    strokeColor={"white"}
-                    strokeWidth={.02}
-                    strokeOpacity={.3}
-                    fillOpacity={0}
-                >
-                  Jet Blue
-                </Text> */}
                 <Text
                     font="/fonts/Orbitron_Regular.json"
-                    scale={ isMobile ? .72 : 1 }
-                    position={ isMobile ? [ 0, 2.5, -4 ] : [ 2.5, 6, -4 ] }
+                    scale={ isMobile ? 1 : 1 }
+                    position={ isMobile ? [ 2, 5, -4 ] : [ 2.5, 5.6, -4 ] }
                 >
                   Welcome To
                 </Text>
                 <Text
                     font="/fonts/Orbitron_Regular.json"
-                    scale={ isMobile ? .72 : 6 }
-                    position={ isMobile ? [ 0, 2.5, -4 ] : [ 2.5, .5, -2 ] }
+                    scale={ isMobile ? 3.2 : 6 }
+                    position={ isMobile ? [ 2, 2.5, -4 ] : [ 2.5, .5, -2 ] }
+                    // color={"lightskyblue"}
+                    color={"aliceblue"}
+                    // color="powderblue"
+                    onPointerEnter={()=> setIsTextHovered(true)}
+                    onPointerOut={()=> setIsTextHovered(false)}
+                    strokeColor={isTextHovered ? "aliceblue" : "transparent"}
+                    strokeWidth={ isTextHovered ? .02 : 0 }
+                    strokeOpacity={ isTextHovered ? .3 : 0}
+                    fillOpacity={ isTextHovered ? 0 : 1 }
                 >
                   Jet Blue
                 </Text>
@@ -268,6 +292,8 @@ export default function Home() {
           <MdKeyboardDoubleArrowDown style={{ fontSize: '2rem', color: 'white', }} />
         </motion.div>
       </motion.div>
+
+      <ToastContainer />
     </motion.div>
   )
 }
