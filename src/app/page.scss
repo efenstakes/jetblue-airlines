@@ -2,6 +2,12 @@
 .page {
   position: relative;
   height: 100vh;
+
+  background-image: linear-gradient(
+    78deg,
+    lightskyblue,
+    aliceblue
+  );
 }
 
 .direction_container {

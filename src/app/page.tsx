@@ -1,7 +1,7 @@
 "use client"
 import { Canvas, useFrame } from '@react-three/fiber'
 import { PlaneModel } from '@/components/plane/component'
-import { Cloud, Html, Loader, OrbitControls, Text, useProgress, } from '@react-three/drei'
+import { Cloud, Float, Html, Loader, OrbitControls, Text, useProgress, } from '@react-three/drei'
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { motion as motion3d } from 'framer-motion-3d'
 import { Suspense, useEffect, useRef, useState } from 'react'
@@ -23,6 +23,7 @@ import './page.scss'
 import { ToastContainer, toast } from 'react-toastify'
 
 
+const CloudOpacity = .2
 export default function Home() {
   const width = useWindowWidth()
   const height = useWindowHeight()
@@ -31,6 +32,7 @@ export default function Home() {
 
   const [alreadyShownEffectsWarning, setAlreadyShownEffectsWarning] = useState(false)
   const [isTextHovered, setIsTextHovered] = useState(false)
+  const [mouseInMotion, setMouseInMotion] = useState(false)
 
   const isMobile = width < 720
 
@@ -45,6 +47,18 @@ export default function Home() {
       // setHovered(true)
       const rect = event.currentTarget.getBoundingClientRect();
 
+      // if( !mouseInMotion ) {
+      //   setMouseInMotion(true)
+
+      //   const tout = setTimeout(()=> {
+      //     console.log("set mouseInMotion to false now")
+      //     if( mouseInMotion ) {
+      //       setMouseInMotion(false)
+      //     }
+      //     clearTimeout(tout)
+      //   }, 5000)
+      // }
+
       // setTimeout(()=> {
       x.set(event.clientX - 20 - rect.left);
       y.set(event.clientY - 20 - rect.top);
@@ -53,6 +67,12 @@ export default function Home() {
   }
 
   
+  useEffect(()=> {
+    // setInterval(()=> {
+    //   if( isMouse )
+    // }, 5000)
+  }, [])
+
   useEffect(()=> {
     
     if( width < 720 && !alreadyShownEffectsWarning ) {
@@ -85,6 +105,7 @@ export default function Home() {
 
         <CanvasBackground />
 
+        <Float floatIntensity={.2} rotationIntensity={.1}>
         <motion3d.group
           scale={[ .09, .09, .09 ]}
           position={[ 0, -1, -1.5 ]}
@@ -92,11 +113,11 @@ export default function Home() {
           rotation-x={rotateX}
         >
           {/* plane model */}
-          <Suspense fallback={<Loader />}>
+          {/* <Suspense fallback={<Loader />}> */}
             <group scale={ isMobile ? [ .8, .8, .8 ] : [ 1, 1, 1 ] }>
-              <PlaneModel />
+                <PlaneModel />
             </group>
-          </Suspense>
+          {/* </Suspense> */}
 
           {
             new Array(30).fill(20).map((_, i)=> {
@@ -110,7 +131,7 @@ export default function Home() {
                   <Cloud
                     color='white'
                     width={30}
-                    opacity={.2}
+                    opacity={CloudOpacity}
                   />
                 </group>
               )
@@ -129,7 +150,7 @@ export default function Home() {
                   <Cloud
                     color='white'
                     width={30}
-                    opacity={.2}
+                    opacity={CloudOpacity}
                   />
                 </group>
               )
@@ -148,7 +169,7 @@ export default function Home() {
                   <Cloud
                     color='white'
                     width={30}
-                    opacity={.2}
+                    opacity={CloudOpacity}
                   />
                 </group>
               )
@@ -167,7 +188,7 @@ export default function Home() {
                   <Cloud
                     color='white'
                     width={30}
-                    opacity={.2}
+                    opacity={CloudOpacity}
                   />
                 </group>
               )
@@ -186,7 +207,7 @@ export default function Home() {
                   <Cloud
                     color='white'
                     width={30}
-                    opacity={.2}
+                    opacity={CloudOpacity}
                   />
                 </group>
               )
@@ -205,7 +226,7 @@ export default function Home() {
                   <Cloud
                     color='white'
                     width={30}
-                    opacity={.2}
+                    opacity={CloudOpacity}
                   />
                 </group>
               )
@@ -224,7 +245,7 @@ export default function Home() {
                   <Cloud
                     color='white'
                     width={30}
-                    opacity={.2}
+                    opacity={CloudOpacity}
                   />
                 </group>
               )
@@ -243,7 +264,7 @@ export default function Home() {
                   <Cloud
                     color='white'
                     width={30}
-                    opacity={.2}
+                    opacity={CloudOpacity}
                   />
                 </group>
               )
@@ -276,6 +297,7 @@ export default function Home() {
                 </Text>
             </group>
         </motion3d.group>
+        </Float>
 
         {/* <AltLoader /> */}
         {/* <CanvasLoader /> */}
