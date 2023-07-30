@@ -71,7 +71,7 @@ export const logoContainerVariants = {
         scaleY: .3,
         transition: {
             when: "beforeChildren",
-            delay: 1,
+            delay: .3,
             staggerChildren: 0.1,
         },
     },
