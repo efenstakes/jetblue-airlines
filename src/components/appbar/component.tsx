@@ -87,7 +87,12 @@ const Appbar = () => {
                     onClick={handleClick}
                 >
                     {/* <MdPersonOutline /> */}
-                    <Avatar />
+                    <Avatar
+                        style={{
+                            backgroundColor: 'white',
+                            color: 'dodgerblue',
+                        }}
+                    />
                 </motion.div>
             </motion.div>
 

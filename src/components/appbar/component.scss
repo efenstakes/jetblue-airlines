@@ -23,7 +23,7 @@ $BLACK_COLOR: #1e1e1e;
         to bottom,
         rgba($WHITE_COLOR, .5),
         rgba($WHITE_COLOR, .3),
-        transparent
+        rgba(lightskyblue, .1),
     );
     backdrop-filter: blur(10px);
     z-index: 999;
